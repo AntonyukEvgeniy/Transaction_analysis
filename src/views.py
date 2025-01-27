@@ -76,7 +76,7 @@ def get_stock_prices():
 def main_page(current_date: str):
     """
     Принимает на вход строку с датой и временем в формате YYYY-MM-DD HH:MM:SS
-    и возвращающую JSON-ответ. В ответе содержаться все данные необходимые для отображения главной страницы
+    и возвращающую JSON-ответ. В ответе содержаться все данные необходимые для отображения главной страницы.
     """
     curr_date = datetime.strptime(current_date, "%Y-%m-%d %H:%M:%S")
     start_date = datetime(curr_date.year, curr_date.month, 1)
