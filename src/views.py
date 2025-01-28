@@ -1,7 +1,5 @@
 import json
-from datetime import datetime, timedelta
-
-
+from datetime import datetime, timedelta, date
 
 from src.external_api import get_currency_rates, get_stock_rates
 from src.utils import get_transactions_from_xlsx_file, get_transactions_for_period, get_user_settings
