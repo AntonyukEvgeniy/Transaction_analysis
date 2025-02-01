@@ -1,6 +1,8 @@
 import json
 import logging
+from datetime import datetime
 from pathlib import Path
+from typing import Any
 
 import pandas as pd
 from pandas import DataFrame
@@ -33,7 +35,7 @@ def get_transactions_from_xlsx_file(filepath: str = OPERATIONS_PATH) -> DataFram
 
 
 @log("log.txt")
-def get_transactions_for_period(date_from, date_to) -> DataFrame:
+def get_transactions_for_period(date_from: datetime, date_to: datetime) -> Any:
     """
     Возвращает датафрейм транзакций за период. Принимает дату начала и дату конца периода.
     """
@@ -46,7 +48,7 @@ def get_transactions_for_period(date_from, date_to) -> DataFrame:
 
 
 @log("log.txt")
-def get_user_settings(filepath: str = SETTINGS_PATH) -> DataFrame:
+def get_user_settings(filepath: str = SETTINGS_PATH) -> Any:
     file_to_open = file(filepath)
     try:
         with open(file_to_open, "r", encoding="utf8") as f:

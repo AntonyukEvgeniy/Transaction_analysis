@@ -1,4 +1,5 @@
 import os
+from typing import Union, List, Dict
 
 import requests
 from dotenv import load_dotenv
@@ -7,7 +8,7 @@ from src.decorators import log
 
 
 @log("log.txt")
-def get_stock_rates(*, stock_symbols: [str]) -> list[dict]:
+def get_stock_rates(*, stock_symbols: list[str]) -> list[dict[str, Union[str, float]]]:
     load_dotenv()
     api_key = os.getenv("API_KEY_STOCKS")
     url = "https://www.alphavantage.co/query"
@@ -27,7 +28,7 @@ def get_stock_rates(*, stock_symbols: [str]) -> list[dict]:
 
 
 @log("log.txt")
-def get_currency_rates(*, curr_symbols: [str]) -> list[dict]:
+def get_currency_rates(*, curr_symbols: list[str]) -> List[Dict[str, float]]:
     load_dotenv()
     api_key = os.getenv("API_KEY_CURRENCIES")
     currency_rates = []

@@ -35,7 +35,7 @@ def test_main_page(current_date, expected_greeting, monkeypatch):
     def mock_get_stock_prices():
         return expected_stock_prices
 
-    monkeypatch.setattr("src.views.get_transactions_from_xlsx_file", mock_get_transactions_from_xlsx_file)
+    monkeypatch.setattr("src.utils.get_transactions_from_xlsx_file", mock_get_transactions_from_xlsx_file)
     monkeypatch.setattr("src.views.cards_widget", mock_cards_widget)
     monkeypatch.setattr("src.views.top_trans_by_payment", mock_top_trans_by_payment)
     monkeypatch.setattr("src.views.get_currency_rates", mock_get_currency_rates)
