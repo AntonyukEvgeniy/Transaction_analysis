@@ -2,6 +2,7 @@ import functools
 from functools import wraps
 from pathlib import Path
 from typing import Any, Callable, TypeVar
+
 import pandas as pd
 
 F = TypeVar("F", bound=Callable[..., Any])
@@ -21,7 +22,7 @@ def log_result_to_file(*, filename: str) -> Callable[[F], F]:
                 f.write(result.to_string() if isinstance(result, pd.DataFrame) else str(result))
             return result
 
-        return wrapper    # type: ignore
+        return wrapper  # type: ignore
 
     return decorator
 
