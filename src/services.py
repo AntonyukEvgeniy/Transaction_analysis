@@ -2,9 +2,10 @@ import json
 
 import pandas as pd
 
+from src.decorators import log
 from src.utils import get_transactions_from_xlsx_file
 
-
+@log("log.txt")
 def get_favorable_categories(data, year, month):
     """
     На вход функции поступают данные для анализа, год и месяц.

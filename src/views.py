@@ -1,10 +1,11 @@
 import json
 from datetime import datetime, timedelta, date
 
+from src.decorators import log
 from src.external_api import get_currency_rates, get_stock_rates
 from src.utils import get_transactions_from_xlsx_file, get_transactions_for_period, get_user_settings
 
-
+@log("log.txt")
 def greetings(curr_time: datetime.time) -> str:
     """
     Приветствие в формате
@@ -23,7 +24,7 @@ def greetings(curr_time: datetime.time) -> str:
     elif 18 <= hour < 24:
         return "Добрый вечер"
 
-
+@log("log.txt")
 def cards_widget(transactions_for_period) -> list[dict]:
     """
     По каждой карте:
@@ -40,7 +41,7 @@ def cards_widget(transactions_for_period) -> list[dict]:
             cards.append({"last_digits": last_digits, "total_spent": total_spent})
     return cards
 
-
+@log("log.txt")
 def top_trans_by_payment(transactions_for_period) -> list[dict]:
     """
     Топ-5 транзакций по сумме платежа
@@ -58,7 +59,7 @@ def top_trans_by_payment(transactions_for_period) -> list[dict]:
         )
     return top_five
 
-
+@log("log.txt")
 def get_rates():
     """
     Возвращает курс валют в рублях. Пример:
@@ -68,7 +69,7 @@ def get_rates():
     currency_rates = get_currency_rates(curr_symbols=user_currencies)
     return currency_rates
 
-
+@log("log.txt")
 def get_stock_prices():
     """
     Возвращает стоимость акций из S&P500 в рублях.
@@ -77,7 +78,7 @@ def get_stock_prices():
     stock_prices = get_stock_rates(stock_symbols=user_stocks)
     return stock_prices
 
-
+@log("log.txt")
 def main_page(current_date: str):
     """
     Принимает на вход строку с датой и временем в формате YYYY-MM-DD HH:MM:SS
