@@ -1,8 +1,8 @@
+import json
 import logging
 from pathlib import Path
-from typing import Any
+
 import pandas as pd
-import json
 from pandas import DataFrame
 
 from src.decorators import log
