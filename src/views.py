@@ -1,6 +1,6 @@
 import json
-from datetime import time, timedelta, datetime
-from typing import List, Dict, Any, Union
+from datetime import datetime, time, timedelta
+from typing import Any, Dict, List, Union
 
 import pandas as pd
 
@@ -69,7 +69,7 @@ def top_trans_by_payment(transactions_for_period: pd.DataFrame) -> List[Dict[str
 
 
 @log("log.txt")
-def get_rates()-> List[Dict[str, float]]:
+def get_rates() -> List[Dict[str, float]]:
     """
     Возвращает курс валют в рублях. Пример:
     {'user_currencies': ['USD', 'EUR'], 'user_stocks': ['AAPL', 'AMZN', 'GOOGL', 'MSFT', 'TSLA']}

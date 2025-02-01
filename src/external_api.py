@@ -1,5 +1,5 @@
 import os
-from typing import Union, List, Dict
+from typing import Dict, List, Union
 
 import requests
 from dotenv import load_dotenv
