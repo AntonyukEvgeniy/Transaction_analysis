@@ -1,64 +1,51 @@
 import functools
 from functools import wraps
 from pathlib import Path
-from typing import Callable, Any
-
+from typing import Any, Callable, TypeVar
 import pandas as pd
 
+F = TypeVar("F", bound=Callable)
 
-def log_result_to_file(*, filename: str):
-    """
-    Декоратор записывает результат работы функции в файл .txt
-    """
 
-    def decorator(func: Callable):
+def log_result_to_file(*, filename: str) -> Callable[[F], F]:
+    def decorator(func: F) -> F:
         @functools.wraps(func)
         def wrapper(*args, **kwargs):
             result = func(*args, **kwargs)
-            data_folder = Path(__file__).parent.parent
-            file_to_open = data_folder / filename
-            if filename != "":
-                with open(file_to_open, "w", encoding="utf-8") as f:
-                    f.write(result.to_string() if isinstance(result, pd.DataFrame) else str(result))
-                return result
-            else:
-                print(f"{result}")
+            if not filename:
+                print(result)
                 return result
 
-        return wrapper
+            file_path = Path(filename)
+            file_path.parent.mkdir(parents=True, exist_ok=True)
+            with open(file_path, "w", encoding="utf-8") as f:
+                f.write(result.to_string() if isinstance(result, pd.DataFrame) else str(result))
+            return result
+
+        return wrapper  # type: ignore
 
     return decorator
 
 
-def log(file: str = "") -> Any:
-    """
-    Декоратор, который логирует выполнение функции в файл либо в консоль, в зависимости от параметра file
-    Ожидаемый вывод в лог-файл mylog.txt
-    при успешном выполнении:
-    my_function ok
-    Ожидаемый вывод при ошибке:
-    my_function error: тип ошибки. Inputs: (1, 2), {}
-    """
-
+def log(file: str = "") -> Callable[[Callable], Callable]:
     def logger(func: Callable) -> Callable:
         @wraps(func)
         def wrapped(*args: Any, **kwargs: Any) -> Any:
-            data_folder = Path(__file__).parent.parent
-            file_to_open = data_folder / file
+            file_path = Path(file) if file else None
             try:
-                func(*args, **kwargs)
-                if file != "":
-                    f = open(file_to_open, "a")
-                    f.write(f"\n{func.__name__} ok")
-                else:
-                    print(f"{func.__name__} ok")
+                result = func(*args, **kwargs)
+                log_message = f"{func.__name__} ok"
             except Exception as e:
-                if file != "":
-                    f = open(file_to_open, "a")
-                    f.write(f"\n{func.__name__} error: {repr(e)}. Inputs: {args}, {kwargs}")
-                else:
-                    print(f"{func.__name__} error: {repr(e)}. Inputs: {args}, {kwargs}")
-            return func(*args, **kwargs)
+                log_message = f"{func.__name__} error: {repr(e)}. Inputs: {args}, {kwargs}"
+                result = None
+
+            if file_path:
+                file_path.parent.mkdir(parents=True, exist_ok=True)
+                with open(file_path, "a", encoding="utf-8") as f:
+                    f.write(f"\n{log_message}")
+            else:
+                print(log_message)
+            return result
 
         return wrapped
 

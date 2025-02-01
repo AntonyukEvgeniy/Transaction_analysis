@@ -1,9 +1,10 @@
 import json
-from datetime import datetime, timedelta, date
+from datetime import datetime, timedelta
 
 from src.decorators import log
 from src.external_api import get_currency_rates, get_stock_rates
-from src.utils import get_transactions_from_xlsx_file, get_transactions_for_period, get_user_settings
+from src.utils import get_transactions_for_period, get_user_settings
+
 
 @log("log.txt")
 def greetings(curr_time: datetime.time) -> str:
@@ -24,6 +25,7 @@ def greetings(curr_time: datetime.time) -> str:
     elif 18 <= hour < 24:
         return "Добрый вечер"
 
+
 @log("log.txt")
 def cards_widget(transactions_for_period) -> list[dict]:
     """
@@ -40,6 +42,7 @@ def cards_widget(transactions_for_period) -> list[dict]:
             total_spent = round(-1 * row["Сумма операции"], 2)
             cards.append({"last_digits": last_digits, "total_spent": total_spent})
     return cards
+
 
 @log("log.txt")
 def top_trans_by_payment(transactions_for_period) -> list[dict]:
@@ -59,6 +62,7 @@ def top_trans_by_payment(transactions_for_period) -> list[dict]:
         )
     return top_five
 
+
 @log("log.txt")
 def get_rates():
     """
@@ -69,6 +73,7 @@ def get_rates():
     currency_rates = get_currency_rates(curr_symbols=user_currencies)
     return currency_rates
 
+
 @log("log.txt")
 def get_stock_prices():
     """
@@ -77,6 +82,7 @@ def get_stock_prices():
     user_stocks = get_user_settings()["user_stocks"]
     stock_prices = get_stock_rates(stock_symbols=user_stocks)
     return stock_prices
+
 
 @log("log.txt")
 def main_page(current_date: str):
@@ -106,5 +112,9 @@ def main_page(current_date: str):
 
 
 if __name__ == "__main__":
-    result = main_page("2021-12-15 14:49:00")
+    curr_date = datetime.strptime("2021-12-15 00:00:00", "%Y-%m-%d %H:%M:%S")
+    start_date = datetime(curr_date.year, curr_date.month, 1)
+    end_date = datetime(curr_date.year, curr_date.month, curr_date.day) + timedelta(days=1)
+    curr_time = curr_date.time()
+    result = greetings(curr_time)
     print(result)

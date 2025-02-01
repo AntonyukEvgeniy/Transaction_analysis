@@ -1,8 +1,10 @@
 import os
-from dotenv import load_dotenv
+
 import requests
+from dotenv import load_dotenv
 
 from src.decorators import log
+
 
 @log("log.txt")
 def get_stock_rates(*, stock_symbols: [str]) -> list[dict]:
@@ -22,6 +24,7 @@ def get_stock_rates(*, stock_symbols: [str]) -> list[dict]:
         rounded_price = round(float(price), 2)
         stock_prices.append({"stock": stock_symbol, "price": rounded_price})
     return stock_prices
+
 
 @log("log.txt")
 def get_currency_rates(*, curr_symbols: [str]) -> list[dict]:

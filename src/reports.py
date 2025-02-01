@@ -1,11 +1,10 @@
 from datetime import datetime
 from typing import Optional
 
-
 import pandas as pd
 from dateutil.relativedelta import relativedelta
 
-from src.decorators import log_result_to_file, log
+from src.decorators import log, log_result_to_file
 from src.utils import get_transactions_from_xlsx_file
 
 
