@@ -28,6 +28,7 @@ pytest-cov = "^6.0.0"
 requests = "^2.32.3"
 pandas = "^2.2.3"
 pandas-stubs = "^2.2.3.241126"
+autoflake = "^2.3.1"
 
 [build-system]
 requires = ["poetry-core"]

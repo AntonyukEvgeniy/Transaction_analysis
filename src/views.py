@@ -1,5 +1,8 @@
 import json
-from datetime import datetime, timedelta
+from datetime import time, timedelta, datetime
+from typing import List, Dict, Any, Union
+
+import pandas as pd
 
 from src.decorators import log
 from src.external_api import get_currency_rates, get_stock_rates
@@ -7,7 +10,7 @@ from src.utils import get_transactions_for_period, get_user_settings
 
 
 @log("log.txt")
-def greetings(curr_time: datetime.time) -> str:
+def greetings(curr_time: time) -> str:
     """
     Приветствие в формате
     "???"
@@ -24,10 +27,12 @@ def greetings(curr_time: datetime.time) -> str:
         return "Добрый день"
     elif 18 <= hour < 24:
         return "Добрый вечер"
+    else:
+        raise ValueError("Unexpected hour value")
 
 
 @log("log.txt")
-def cards_widget(transactions_for_period) -> list[dict]:
+def cards_widget(transactions_for_period: pd.DataFrame) -> List[Dict[str, Any]]:
     """
     По каждой карте:
     последние 4 цифры карты;
@@ -45,7 +50,7 @@ def cards_widget(transactions_for_period) -> list[dict]:
 
 
 @log("log.txt")
-def top_trans_by_payment(transactions_for_period) -> list[dict]:
+def top_trans_by_payment(transactions_for_period: pd.DataFrame) -> List[Dict[str, float]]:
     """
     Топ-5 транзакций по сумме платежа
     """
@@ -64,7 +69,7 @@ def top_trans_by_payment(transactions_for_period) -> list[dict]:
 
 
 @log("log.txt")
-def get_rates():
+def get_rates()-> List[Dict[str, float]]:
     """
     Возвращает курс валют в рублях. Пример:
     {'user_currencies': ['USD', 'EUR'], 'user_stocks': ['AAPL', 'AMZN', 'GOOGL', 'MSFT', 'TSLA']}
@@ -75,7 +80,7 @@ def get_rates():
 
 
 @log("log.txt")
-def get_stock_prices():
+def get_stock_prices() -> list[dict[str, Union[str, float]]]:
     """
     Возвращает стоимость акций из S&P500 в рублях.
     """
@@ -85,7 +90,7 @@ def get_stock_prices():
 
 
 @log("log.txt")
-def main_page(current_date: str):
+def main_page(current_date: str) -> str:
     """
     Принимает на вход строку с датой и временем в формате YYYY-MM-DD HH:MM:SS
     и возвращающую JSON-ответ. В ответе содержаться все данные необходимые для отображения главной страницы.

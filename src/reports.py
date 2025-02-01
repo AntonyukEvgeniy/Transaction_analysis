@@ -20,7 +20,7 @@ def spending_by_category(transactions: pd.DataFrame, category: str, date: Option
     filtered_transactions = transactions.loc[
         (transactions["Категория"] == category) & (transactions["date"] >= date_from)
     ]
-    spending = filtered_transactions.groupby("Категория", as_index=False)["Сумма операции"].sum(-1)
+    spending = filtered_transactions.groupby("Категория")[["Сумма операции"]].sum().reset_index()
     spending["Сумма операции"] = spending["Сумма операции"].apply(lambda x: -1 * x)
     return spending
 
