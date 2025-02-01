@@ -1,4 +1,3 @@
-import json
 import os
 from dotenv import load_dotenv
 import requests
@@ -30,14 +29,15 @@ def convert_into_rubles(*, transaction: dict) -> float:
     else:
         return float(amount)
 
+
 def get_stock_rates(*, stock_symbols: [str]) -> list[dict]:
     load_dotenv()
     api_key = os.getenv("API_KEY_STOCKS")
-    url = 'https://www.alphavantage.co/query'
+    url = "https://www.alphavantage.co/query"
     stock_prices = []
     for stock_symbol in stock_symbols:
-        payload = {"function": "TIME_SERIES_DAILY", "symbol": stock_symbol,"apikey": api_key}
-        response = requests.get(url,  params=payload)
+        payload = {"function": "TIME_SERIES_DAILY", "symbol": stock_symbol, "apikey": api_key}
+        response = requests.get(url, params=payload)
         status_code = response.status_code
         if status_code != 200:
             raise Exception("Что-то пошло не так!")
@@ -53,7 +53,7 @@ def get_currency_rates(*, curr_symbols: [str]) -> list[dict]:
     load_dotenv()
     api_key = os.getenv("API_KEY_CURRENCIES")
     currency_rates = []
-    symbols = ','.join(curr_symbols)
+    symbols = ",".join(curr_symbols)
     base_currency = "RUB"
     url = "https://api.apilayer.com/exchangerates_data/latest"
     payload = {"symbols": symbols, "base": base_currency}
@@ -64,11 +64,12 @@ def get_currency_rates(*, curr_symbols: [str]) -> list[dict]:
         raise Exception("Что-то пошло не так!")
     data = response.json()
     for symbol in curr_symbols:
-        rate = round(1/data["rates"][symbol],2)
-        currency_rates.append({"currency":symbol,"rate":rate})
+        rate = round(1 / data["rates"][symbol], 2)
+        currency_rates.append({"currency": symbol, "rate": rate})
     return currency_rates
 
-if __name__ == '__main__':
+
+if __name__ == "__main__":
     # curr_symbols = ["USD", "EUR"]
     # result = get_currency_rates(curr_symbols = curr_symbols)
     stock_symbols = ["AAPL", "AMZN", "GOOGL", "MSFT", "TSLA"]
