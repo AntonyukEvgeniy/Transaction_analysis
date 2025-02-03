@@ -5,7 +5,9 @@ import requests
 from dotenv import load_dotenv
 
 from src.decorators import log
+
 load_dotenv()
+
 
 @log("log.txt")
 def get_stock_rates(*, stock_symbols: list[str]) -> list[dict[str, Union[str, float]]]:

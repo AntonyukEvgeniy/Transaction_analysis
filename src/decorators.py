@@ -18,6 +18,7 @@ def log_result_to_file(*, filename: str) -> Callable[[F], F]:
     Returns:
         Callable: Декорированная функция
     """
+
     def decorator(func: F) -> F:
         @functools.wraps(func)
         def wrapper(*args: Any, **kwargs: Any) -> Any:
@@ -46,6 +47,7 @@ def log(file: str = "") -> Callable[[Callable], Callable]:
     Returns:
         Callable: Декорированная функция, которая логирует свое выполнение
     """
+
     def logger(func: Callable) -> Callable:
         @wraps(func)
         def wrapped(*args: Any, **kwargs: Any) -> Any:

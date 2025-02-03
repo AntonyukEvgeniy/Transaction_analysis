@@ -61,7 +61,8 @@ exclude = [
     # No need to traverse our git directory
     ".git",
     # There's no value in checking cache directories
-    "__pycache__"
+    "__pycache__",
+    ".venv"  # Добавляем .venv
 ]
 # Use extend-ignore to add to already ignored checks which are anti-patterns like W503.
 extend-ignore = [
