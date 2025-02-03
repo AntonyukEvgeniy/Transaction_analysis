@@ -14,6 +14,10 @@ SETTINGS_PATH = "user_settings.json"
 
 
 def file(filepath: str) -> Path:
+    """
+    Возвращает путь до файла, лежащего в каталоге data, который лежит в каталоге родительском
+    по отношению к каталогу, где находится файл со скриптом.
+    """
     data_folder = Path(__file__).parent.parent
     file_to_open = data_folder / filepath
     return file_to_open
@@ -49,6 +53,9 @@ def get_transactions_for_period(date_from: datetime, date_to: datetime) -> Any:
 
 @log("log.txt")
 def get_user_settings(filepath: str = SETTINGS_PATH) -> Any:
+    """
+    Возвращает настройки пользователя.
+    """
     file_to_open = file(filepath)
     try:
         with open(file_to_open, "r", encoding="utf8") as f:

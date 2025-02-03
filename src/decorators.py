@@ -9,6 +9,15 @@ F = TypeVar("F", bound=Callable[..., Any])
 
 
 def log_result_to_file(*, filename: str) -> Callable[[F], F]:
+    """
+    Декоратор для записи результата выполнения функции в файл.
+
+    Args:
+        filename (str): Путь к файлу для записи результата
+
+    Returns:
+        Callable: Декорированная функция
+    """
     def decorator(func: F) -> F:
         @functools.wraps(func)
         def wrapper(*args: Any, **kwargs: Any) -> Any:
@@ -28,6 +37,15 @@ def log_result_to_file(*, filename: str) -> Callable[[F], F]:
 
 
 def log(file: str = "") -> Callable[[Callable], Callable]:
+    """
+    Декоратор для логирования выполнения функции.
+
+    Args:
+        file (str): Путь к файлу для записи логов. Если пустой - вывод в консоль
+
+    Returns:
+        Callable: Декорированная функция, которая логирует свое выполнение
+    """
     def logger(func: Callable) -> Callable:
         @wraps(func)
         def wrapped(*args: Any, **kwargs: Any) -> Any:

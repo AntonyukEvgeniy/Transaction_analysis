@@ -11,6 +11,24 @@ from src.utils import get_transactions_from_xlsx_file
 @log("log.txt")
 @log_result_to_file(filename="output.txt")
 def spending_by_category(transactions: pd.DataFrame, category: str, date: Optional[str] = None) -> pd.DataFrame:
+    """
+    Возвращает датафрейм с суммой расходов по указанной категории за последние 3 месяца.
+
+    Parameters
+    ----------
+    transactions : pd.DataFrame
+        датафрейм с транзакциями
+    category : str
+        категория, по которой будет сформирована отчет
+    date : Optional[str], optional
+        дата, за которую будет сформирована отчет, по умолчанию - текущая дата,
+        формат - "%d.%m.%Y %H:%M:%S"
+
+    Returns
+    -------
+    pd.DataFrame
+        датафрейм с суммой расходов по указанной категории
+    """
     if date is None:
         now = datetime.now()
     else:

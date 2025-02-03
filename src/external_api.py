@@ -5,11 +5,16 @@ import requests
 from dotenv import load_dotenv
 
 from src.decorators import log
-
+load_dotenv()
 
 @log("log.txt")
 def get_stock_rates(*, stock_symbols: list[str]) -> list[dict[str, Union[str, float]]]:
-    load_dotenv()
+    """
+    Возвращает стоимость акций по переданным символам.
+
+    :param stock_symbols: список символов акций
+    :return: список словарей c символом акции и ее стоимостью
+    """
     api_key = os.getenv("API_KEY_STOCKS")
     url = "https://www.alphavantage.co/query"
     stock_prices = []
@@ -29,7 +34,12 @@ def get_stock_rates(*, stock_symbols: list[str]) -> list[dict[str, Union[str, fl
 
 @log("log.txt")
 def get_currency_rates(*, curr_symbols: list[str]) -> List[Dict[str, float]]:
-    load_dotenv()
+    """
+    Получает валютные курсы для указанных валютных символов относительно рубля.
+
+    :param curr_symbols: список символов валют
+    :return: список словарей с символом валюты и её курсом
+    """
     api_key = os.getenv("API_KEY_CURRENCIES")
     currency_rates = []
     symbols = ",".join(curr_symbols)

@@ -7,7 +7,7 @@ from src.utils import get_transactions_from_xlsx_file
 
 
 @log("log.txt")
-def get_favorable_categories(data: pd.DataFrame, year: int, month: int):
+def get_favorable_categories(data: pd.DataFrame, year: int, month: int) -> str:
     """
     На вход функции поступают данные для анализа, год и месяц.
     На выходе — JSON с анализом, сколько на каждой категории можно заработать кэшбэка в указанном месяце года.
